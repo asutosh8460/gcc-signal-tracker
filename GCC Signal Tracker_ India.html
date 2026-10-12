@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GCC Signal Tracker: India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f4f6;--surface:#fff;--ink:#14213d;--mute:#5a6578;--line:#d5dae1;--accent:#0f6e8c;--hi:#1f7a4d;--md:#a86a12;--lo:#b4443a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1522;--surface:#16202f;--ink:#e8edf5;--mute:#98a4b8;--line:#2a3649;--accent:#4fb4d4;--hi:#4fc08a;--md:#e0a043;--lo:#e07a70}}
+:root[data-theme="dark"]{--bg:#0e1522;--surface:#16202f;--ink:#e8edf5;--mute:#98a4b8;--line:#2a3649;--accent:#4fb4d4;--hi:#4fc08a;--md:#e0a043;--lo:#e07a70}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "IBM Plex Sans",system-ui,sans-serif}
+main{max-width:980px;margin:0 auto;padding:40px 20px 64px}
+h1,h2{font-family:"Bricolage Grotesque",Georgia,serif;line-height:1.1;margin:0}
+h1{font-size:clamp(30px,5vw,46px);max-width:17ch;font-weight:700}
+h2{font-size:24px;font-weight:700;margin-bottom:6px}
+.lede{color:var(--mute);max-width:62ch;margin:14px 0 0}
+section{margin-top:56px}
+.sub{color:var(--mute);max-width:64ch;margin:0 0 22px}
+.line{position:relative;height:200px;margin:8px 0 0;border-bottom:2px solid var(--line)}
+.pt{position:absolute;bottom:-7px;transform:translateX(-50%);width:0}
+.pt i{display:block;width:12px;height:12px;border-radius:50%;background:var(--accent);margin-left:-6px;position:relative;z-index:1}
+.pt.fc i{background:var(--surface);border:2px solid var(--accent)}
+.pt .tag{position:absolute;bottom:20px;left:0;width:150px;margin-left:-75px;text-align:center;font-size:13px;line-height:1.3;color:var(--mute)}
+.pt .tag b{display:block;font:700 22px/1.1 "Bricolage Grotesque",serif;color:var(--ink)}
+.pt.up .tag{bottom:70px}.pt.up2 .tag{bottom:120px}
+.ticks{display:flex;justify-content:space-between;color:var(--mute);font-size:12px;margin-top:10px}
+.note{border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:26px 0 0;max-width:68ch}
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.bar input,.bar select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:9px 11px;min-height:40px}
+.bar input{flex:1 1 220px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.count{color:var(--mute);font-size:14px;margin:0 0 8px}
+.wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:720px}
+th{text-align:left;font-weight:500;color:var(--mute);font-size:13px;padding:10px 14px;border-bottom:1px solid var(--line)}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr.r{cursor:pointer}tr.r:hover td{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+tr:last-child td{border-bottom:0}
+td.co{font-weight:500}
+.cf{display:inline-flex;align-items:center;gap:7px;font-size:14px}
+.cf::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}
+.cf.High{color:var(--hi)}.cf.Medium{color:var(--md)}.cf.Low{color:var(--lo)}
+.cf span{color:var(--ink)}
+tr.d td{background:color-mix(in srgb,var(--accent) 5%,transparent);color:var(--mute);font-size:14px;padding-top:10px;padding-bottom:14px}
+a{color:var(--accent)}
+.legend{display:grid;gap:8px;margin-top:18px;max-width:70ch;font-size:14px;color:var(--mute)}
+.legend b{color:var(--ink);font-weight:500}
+.empty{padding:28px 14px;color:var(--mute)}
+textarea{width:100%;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:11px;min-height:110px}
+button{font:inherit;color:var(--bg);background:var(--accent);border:0;border-radius:6px;padding:10px 16px;min-height:40px;cursor:pointer}
+button.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+button:disabled{opacity:.6}
+.out{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px 20px}
+.out:empty{display:none}
+.out dl{display:grid;grid-template-columns:130px 1fr;gap:6px 14px;margin:0 0 14px}
+.out dt{color:var(--mute)}.out dd{margin:0}
+footer{margin-top:56px;color:var(--mute);font-size:14px;max-width:70ch}
+@media (max-width:640px){.pt .tag{width:104px;margin-left:-52px;font-size:12px}.pt .tag b{font-size:18px}}
+@media (prefers-reduced-motion:no-preference){tr.r td{transition:background .15s}}
+</style>
+</head>
+<body>
+<main>
+<h1>Which GCCs are landing in India, and how sure are we?</h1>
+<p class="lede">A working prototype of a company-level GCC tracker for the people who sell to new centres: real estate, recruiting, EOR and advisory teams. Every row carries its source and a confidence rating, because the public numbers do not agree with each other.</p>
+
+<section aria-labelledby="h-count">
+<h2 id="h-count">How many GCCs are in India? Depends who you ask.</h2>
+<p class="sub">Five published figures, each counting something slightly different. Hollow dot is a forecast.</p>
+<div class="line" id="line" role="img" aria-label="Number line of GCC counts from different reports, from 1,400 to 2,400"></div>
+<div class="ticks"><span>1,300</span><span>1,600</span><span>1,900</span><span>2,200</span><span>2,500</span></div>
+<p class="note">Zinnov-Nasscom's 2,117 sits across 3,728 individual units. JLL's 1,800+ serves just over 1,400 unique parent companies. OceanFrogs' 2,168 is a year older than Zinnov's figure yet higher. Same ecosystem, several counting units. This tracker records which unit each number uses, instead of picking a winner.</p>
+</section>
+
+<section id="tracker" aria-labelledby="h-track">
+<h2 id="h-track">Recent GCC signals</h2>
+<p class="sub">A seed sample of 18 hand-checked signals from 2025 and 2026. Click a row for notes. This is a sample, not the full market.</p>
+<div class="bar">
+<input id="q" type="search" placeholder="Search company, city or provider" aria-label="Search">
+<select id="st" aria-label="Status"><option value="">All statuses</option></select>
+<select id="ct" aria-label="City"><option value="">All cities</option></select>
+<select id="cf" aria-label="Confidence"><option value="">Any confidence</option><option>High</option><option>Medium</option><option>Low</option></select>
+</div>
+<p class="count" id="count" aria-live="polite"></p>
+<div class="wrap"><table>
+<thead><tr><th>Company</th><th>City</th><th>Status</th><th>Timing</th><th>Confidence</th><th>Source</th></tr></thead>
+<tbody id="rows"></tbody>
+</table></div>
+<div class="legend">
+<div><b>High:</b> the company or its delivery partner announced it directly.</div>
+<div><b>Medium:</b> reported by a news or trade outlet, or by unnamed sources, with the main facts present.</div>
+<div><b>Low:</b> a single secondary mention, or a key fact such as the city is missing. Needs a second source before anyone should act on it.</div>
+</div>
+</section>
+
+<section aria-labelledby="h-add"><h2 id="h-add">Add a signal from a press release</h2><p class="sub">Paste a paragraph. Claude pulls out the company, city, status and partners. Confidence is then set by the rule above, not by the AI.</p><textarea id="txt" aria-label="Press release or news text" placeholder="Paste a press release or news paragraph"></textarea><div class="bar" style="margin-top:12px"><select id="tier" aria-label="Source type"><option value="High">Company or partner release</option><option value="Medium">News, wire or trade report</option><option value="Low">Single secondary mention</option></select><button id="go">Extract row</button><button id="ex" class="ghost">Try an example</button></div><div class="out" id="out" aria-live="polite"></div></section>
+<footer>Built as a take-home prototype. Data was collected by search from the linked sources and has not been checked against company filings. Totals above come from the Zinnov-Nasscom FY26 report, JLL India and EY. The extraction box uses Claude when the page runs inside claude.ai and falls back to a simple rule-based scan elsewhere. Next step would be automated collection from press releases, job postings and registry filings, with each new row going through the same confidence scoring.</footer>
+</main>
+
+<script>
+var COUNTS=[
+{v:1400,label:"unique parent companies",src:"JLL India",n:"1,400+"},
+{v:1400,label:"named list, paywalled",src:"AIM Research",n:"~1,400",up:2},
+{v:1700,label:"GCCs, FY24",src:"Zinnov-Nasscom",n:"1,700+",up:1},
+{v:1800,label:"GCCs",src:"JLL India",n:"1,800+"},
+{v:2117,label:"GCCs, FY26",src:"Zinnov-Nasscom",n:"2,117",up:1},
+{v:2168,label:"centres, July 2025",src:"OceanFrogs",n:"2,168"},
+{v:2400,label:"forecast for 2030",src:"EY",n:"~2,400",fc:true,up:1}
+];
+var D=[
+["N-able","Bengaluru","Opened","Jun 2026","High","PR Newswire via ChartMill","https://www.chartmill.com/news/external/56173/prnews-2026-6-25-trigent-supports-n-ables-expansion-with-the-development-of-strategic-gcc-in-india","Fully operational centre with 100+ engineers. Built with Trigent as delivery partner."],
+["TOYO MODEC OFS India (MODEC)","Bengaluru","Opened","Jun 2025","High","Offshore Source","https://offshoresource.com/news/company-updates/modec-announces-the-official-opening-of-the-global-capability-center-in-india/","About 100,000 sq ft at Godrej Centre Indiranagar. Engineering and procurement support for FPSO projects."],
+["Carl Zeiss","Bengaluru","Opened","Date not captured","Medium","Dig.watch","https://dig.watch/updates/carl-zeiss-opens-first-global-capability-centre-in-india","First India GCC. Plans to double local headcount to 5,000 over three years."],
+["Nestle","Hyderabad","Announced","2026","Medium","Sights in Plus","https://www.sightsinplus.com/editorial/major-gcc-announcements-in-2026-set-to-create-thousands-of-jobs-in-india/","Through Nestle Business Solutions, in partnership with Genpact."],
+["McDonald's","Hyderabad","Expanding","Early 2026","Medium","GCC Voices roundup","https://www.aniisu.com/wp-content/uploads/2026/02/GCC-Voices-Monthly-Roundup-January-February-2026.pdf","Described as the company's largest GCC outside its home market."],
+["Syngenta","Pune","Expanding","Early 2026","Medium","GCC Voices roundup","https://www.aniisu.com/wp-content/uploads/2026/02/GCC-Voices-Monthly-Roundup-January-February-2026.pdf","Pune centre expanded around AI-driven agricultural innovation."],
+["Costco","Hyderabad","Rumoured","Date not captured","Medium","Reuters via Yahoo Finance","https://finance.yahoo.com/news/us-retail-giant-costco-set-180417937.html","Based on two people familiar with the plans. Initial headcount around 1,000. Company had not commented."],
+["Abercrombie & Fitch","Bengaluru","Opened","Aug 2026","High","PR Newswire via The Wire","https://m.thewire.in/article/ptiprnews/abercrombie-fitch-co-opens-global-capability-center-in-bengaluru-to-support-continued-global-growth-and-strengthen-enterprise-capabilities","Company release dated 6 Aug 2026. ANSR engaged as advisor. Was Low on a single aggregator mention, upgraded once the primary release turned up."],
+["Unilever","Hyderabad","Evaluating","Early 2026","Low","GCC Voices roundup","https://www.aniisu.com/wp-content/uploads/2026/02/GCC-Voices-Monthly-Roundup-January-February-2026.pdf","Reported as evaluating Hyderabad. No decision announced."],
+["Guardian Life","Not stated","Announced","Early 2026","Low","GCC Voices roundup","https://www.aniisu.com/wp-content/uploads/2026/02/GCC-Voices-Monthly-Roundup-January-February-2026.pdf","Structured its India operations as a GCC. City missing from the source."],
+["Toast","Not stated","Announced","2026","Low","Sights in Plus","https://www.sightsinplus.com/editorial/major-gcc-announcements-in-2026-set-to-create-thousands-of-jobs-in-india/","Named in a roundup of 2026 announcements. City missing."],
+["LPL Financial","Not stated","Announced","2026","Low","Sights in Plus","https://www.sightsinplus.com/editorial/major-gcc-announcements-in-2026-set-to-create-thousands-of-jobs-in-india/","Named in a roundup of 2026 announcements. City missing."],
+["Charles Schwab","Not stated","Announced","2026","Low","Sights in Plus","https://www.sightsinplus.com/editorial/major-gcc-announcements-in-2026-set-to-create-thousands-of-jobs-in-india/","Named in a roundup of 2026 announcements. City missing."],
+["The Hartford","Not stated","Announced","2026","Low","Sights in Plus","https://www.sightsinplus.com/editorial/major-gcc-announcements-in-2026-set-to-create-thousands-of-jobs-in-india/","Named in a roundup of 2026 announcements. City missing."],
+["Zurich Insurance","Hyderabad","Opened","Apr 2026","High","Zurich release via Hub71","https://explorer.hub71.com/news/feed/zurich-insurance-launches-global-capability-center-in-hyderabad-to-advance-ai-and-tech-capabilities","Launch announced by the company. Hiring across cloud, data and AI, app development, cybersecurity and quality engineering. New head of Zurich Capability Centers from 1 Jul 2026."],
+["GI Outsourcing","Hyderabad","Opened","Feb 2026","High","Built In","https://builtin.com/articles/gi-outsourcing-launches-global-capability-center-in-hyderabad-20260204","At International Tech Park. Started with 50 staff, targeting 100+ within a year and about 200 by 2028. Already has Mumbai, Delhi and Ahmedabad operations."],
+["HEINEKEN Business Services India","Hyderabad","Opened","Apr 2026","Medium","UNI wire","https://test.uniindia.com/news/south/tech-telangana-heineken/3826378.html","Inaugurated by the Telangana IT minister on 29 Apr. 76,000 sq ft in the Financial District, 300+ jobs at first and up to 1,600 planned. Reported by a news wire, not a company release."],
+["HCA Healthcare","Hyderabad","Opened","Date not captured","Medium","Outlook Business","https://www.outlookbusiness.com/amp/story/corporate/hca-healthcare-sets-up-global-capability-center-in-hyderabad","First India GCC. Planned investment of about USD 75 million and a target of 3,000 staff by end of 2026. Article date was not visible, so timing needs checking."]
+];
+(function(){
+var line=document.getElementById("line"),lo=1300,hi=2500;
+COUNTS.forEach(function(c){
+var p=document.createElement("div");p.className="pt"+(c.fc?" fc":"")+(c.up===2?" up2":(c.up?" up":""));
+p.style.left=((c.v-lo)/(hi-lo)*100)+"%";
+p.appendChild(document.createElement("i"));
+var t=document.createElement("div");t.className="tag";
+var b=document.createElement("b");b.textContent=c.n;t.appendChild(b);
+t.appendChild(document.createTextNode(c.label+", "+c.src));
+p.appendChild(t);line.appendChild(p)});
+function uniq(i){return D.map(function(r){return r[i]}).filter(function(v,k,a){return a.indexOf(v)===k}).sort()}
+function fill(id,vals){var s=document.getElementById(id);vals.forEach(function(v){var o=document.createElement("option");o.textContent=v;s.appendChild(o)})}
+fill("st",uniq(2));fill("ct",uniq(1));
+var tb=document.getElementById("rows"),open=null;
+function td(txt,cls){var e=document.createElement("td");if(cls)e.className=cls;e.textContent=txt;return e}
+function render(){
+var q=document.getElementById("q").value.toLowerCase(),st=document.getElementById("st").value,ct=document.getElementById("ct").value,cf=document.getElementById("cf").value;
+tb.textContent="";var n=0;
+D.forEach(function(r,i){
+if(st&&r[2]!==st)return;if(ct&&r[1]!==ct)return;if(cf&&r[4]!==cf)return;
+if(q&&(r[0]+" "+r[1]+" "+r[7]).toLowerCase().indexOf(q)<0)return;
+n++;
+var tr=document.createElement("tr");tr.className="r";tr.tabIndex=0;tr.setAttribute("aria-expanded",open===i);
+tr.appendChild(td(r[0],"co"));tr.appendChild(td(r[1]));tr.appendChild(td(r[2]));tr.appendChild(td(r[3]));
+var c=document.createElement("td"),s=document.createElement("div");s.className="cf "+r[4];
+var sp=document.createElement("span");sp.textContent=r[4];s.appendChild(sp);c.appendChild(s);tr.appendChild(c);
+var sc=document.createElement("td"),a=document.createElement("a");if(r[6]){a.href=r[6];a.target="_blank";a.rel="noopener"}a.textContent=r[5];
+a.addEventListener("click",function(e){e.stopPropagation()});sc.appendChild(a);tr.appendChild(sc);
+function tog(){open=(open===i)?null:i;render()}
+tr.addEventListener("click",tog);
+tr.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();tog()}});
+tb.appendChild(tr);
+if(open===i){var d=document.createElement("tr");d.className="d";var x=document.createElement("td");x.colSpan=6;x.textContent=r[7];d.appendChild(x);tb.appendChild(d)}
+});
+if(!n){var e=document.createElement("tr"),x=document.createElement("td");x.colSpan=6;x.className="empty";x.textContent="No signals match. Clear a filter or try a different search.";e.appendChild(x);tb.appendChild(e)}
+document.getElementById("count").textContent="Showing "+n+" of "+D.length+" signals";
+}
+var CITIES=["Bengaluru","Bangalore","Hyderabad","Pune","Chennai","Gurugram","Gurgaon","Noida","Mumbai","New Delhi","Delhi","Ahmedabad","Kolkata","Kochi","Coimbatore","Indore","Jaipur"];
+var STATUSES=["Opened","Announced","Expanding","Evaluating","Rumoured"];
+var TIERS={High:"a company or partner release",Medium:"a news, wire or trade report",Low:"a single secondary mention"};
+var EX="Zurich Insurance has launched a Global Capability Center in Hyderabad to build cloud, data and AI, application development, cybersecurity and quality engineering capabilities, the company said in April 2026.";
+function rules(t){
+var city="Not stated";CITIES.forEach(function(c){if(city==="Not stated"&&t.indexOf(c)>-1)city=c});
+if(city==="Bangalore")city="Bengaluru";if(city==="Gurgaon")city="Gurugram";
+var st="Announced";
+if(/evaluat|consider|explor/i.test(t))st="Evaluating";
+else if(/sources|reportedly|people familiar/i.test(t))st="Rumoured";
+else if(/expand|scal/i.test(t))st="Expanding";
+else if(/opened|opens|inaugurat|launched|launches|unveil/i.test(t))st="Opened";
+var m=t.match(/^\s*([A-Z][\w&.'-]*(?:\s+[A-Z][\w&.'-]*){0,3})/);
+var tm=t.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2},?\s+)?20\d\d/);
+var pt=t.match(/(?:in partnership with|partnered with|advised by)\s+([A-Z][\w&]+)/);
+return {company:m?m[1]:"Not stated",city:city,status:st,timing:tm?tm[0]:"Date not captured",partners:pt?pt[1]:"",note:"Read by the rule-based scan. Check it against the source."}}
+function level(tier,city){var L=["Low","Medium","High"],i=L.indexOf(tier),why="Source is "+TIERS[tier]+".";if(city==="Not stated"){why+=i>0?" Lowered one step because the city is missing.":" The city is missing.";if(i>0)i--}return {level:L[i],why:why}}
+function clean(d){function g(k){return d&&d[k]!=null?String(d[k]).slice(0,200):""}var st=STATUSES.indexOf(g("status"))>-1?g("status"):"Announced";return{company:g("company")||"Not stated",city:g("city")||"Not stated",status:st,timing:g("timing")||"Date not captured",partners:g("partners"),note:g("note")}}
+var txt=document.getElementById("txt"),out=document.getElementById("out"),go=document.getElementById("go");
+document.getElementById("ex").addEventListener("click",function(){txt.value=EX;document.getElementById("tier").value="High"});
+function show(d,how){
+var c=level(document.getElementById("tier").value,d.city);out.textContent="";
+var dl=document.createElement("dl");
+[["Company",d.company],["City",d.city],["Status",d.status],["Timing",d.timing],["Partners",d.partners||"None named"],["Notes",d.note]].forEach(function(x){var a=document.createElement("dt"),b=document.createElement("dd");a.textContent=x[0];b.textContent=x[1];dl.appendChild(a);dl.appendChild(b)});
+var a=document.createElement("dt"),b=document.createElement("dd"),cf=document.createElement("div"),sp=document.createElement("span");
+a.textContent="Confidence";cf.className="cf "+c.level;sp.textContent=c.level+". "+c.why;cf.appendChild(sp);b.appendChild(cf);dl.appendChild(a);dl.appendChild(b);
+var h=document.createElement("p");h.className="count";h.textContent=how+". Check the fields before adding.";
+var add=document.createElement("button");add.textContent="Add to table";
+add.addEventListener("click",function(){D.unshift([d.company,d.city,d.status,d.timing,c.level,"Pasted by you","",(d.note||"")+" "+c.why]);open=null;render();out.textContent="Added to the top of the table.";document.getElementById("tracker").scrollIntoView({behavior:"smooth"})});
+out.appendChild(h);out.appendChild(dl);out.appendChild(add)}
+go.addEventListener("click",async function(){
+var t=txt.value.trim();if(!t){out.textContent="Paste some text first.";return}
+go.disabled=true;out.textContent="Reading...";var d=null,how="";
+try{var s=(window.claude&&window.claude.use)?await window.claude.use("sample"):null;
+if(s){d=clean(await s.json("Read the text and return JSON only, with keys company, city, status, timing, partners, note. status must be one of Opened, Announced, Expanding, Evaluating, Rumoured. Use \"Not stated\" for anything the text does not say and never guess. partners: delivery or advisory firms named, else an empty string. note: one sentence on scale or purpose. Text: "+t));how="Extracted by Claude"}}catch(e){d=null}
+if(!d){d=rules(t);how="Read by a simple rule-based scan, because the AI step is not available here"}
+show(d,how);go.disabled=false});
+["q","st","ct","cf"].forEach(function(id){document.getElementById(id).addEventListener("input",function(){open=null;render()})});
+render();
+})();
+</script>
+</body>
+</html>
